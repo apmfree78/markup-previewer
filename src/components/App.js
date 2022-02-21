@@ -1,35 +1,32 @@
 import React from "react";
-import sampleQuotes from "../quotes";
-import QuoteBox from "./QuoteBox";
+import HtmlMarkup from "./HtmlMarkup";
 
 class App extends React.Component {
   state = {
-    quotes: sampleQuotes, //object containing all quotes
-    displayedQuote: sampleQuotes.quote1, //quote we're currently displaying
+    markup: "",
   };
 
-  pickQuote = () => {
-    //getting array of quotes
-    const quoteKeys = Object.keys(this.state.quotes);
-    //randomly picking a key
-    const randomId = Math.floor(Math.random() * quoteKeys.length);
-    //extracting quote from random key
-    const displayedQuote = this.state.quotes[quoteKeys[randomId]];
-    //setting displayQuote to this quote
-    this.setState({ displayedQuote });
+  handleChange = (event) => {
+    //set value of state to current text in textarea box
+    const markup = event.currentTarget.value;
+    this.setState({ markup });
   };
 
   render() {
-    // const quoteKeys = Object.keys(this.state.quotes);
-    // const quoteArray = quoteKeys.map((key) => <li>{this.state.quotes[key].quote}</li>);
+    const markup = this.state.markup;
 
     return (
-      <header>
-        <QuoteBox
-          displayedQuote={this.state.displayedQuote}
-          pickQuote={this.pickQuote}
-        />
-      </header>
+      <div className='parcer'>
+        <h2>Original Markup</h2>
+        <textarea
+          name='markup'
+          id='editor'
+          cols='50'
+          rows='10'
+          value={markup}
+          onChange={this.handleChange}></textarea>
+        <HtmlMarkup markup={this.state.markup} />
+      </div>
     );
   }
 }
